@@ -2,15 +2,19 @@ const express = require('express');
 const logger = require('morgan');
 
 const app = express();
-app.use(logger('dev'));
-app.use(express.static(__dirname + '/'));
 
+// For logging
+app.use(logger('dev'));
+
+// socket.io
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+// Allows for serving static files
+app.use(express.static(__dirname + '/'));
+
 app.get('/', function (req, res) {
-    // res.render('index.ejs');
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + 'index.html');
 });
 
 io.sockets.on('connection', function (socket) {
